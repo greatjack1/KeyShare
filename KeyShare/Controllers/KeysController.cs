@@ -2,46 +2,47 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KeyShare.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KeyShare.Controllers
 {
-    [Route("api/[controller]")]
     public class KeysController : Controller
     {
-        public KeysController(){
-            
+        public IRepository mRepo;
+        public KeysController(IRepository repo) {
+            mRepo = repo;
         }
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get(string Key,string Secret)
+        public JsonResult GetValue(string Key,string Secret)
         {
-            return new string[] { "value1", "value2" };
-        }
+            try
+            {
+                return Json(mRepo.getValue(Key, Secret));
+            }
+            catch (Exception ex) {
+                return Json("Error, try again later");
+            }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+            }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpGet]
+        public JsonResult StoreValue(string Key,string Secret,string Value)
         {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            try
+            {
+                //create a new key entry and store it
+                KeyEntry entry = new KeyEntry();
+                entry.Key = Key;
+                entry.Secret = Secret;
+                entry.Value = Value;
+                mRepo.addKeyEntry(entry);
+                return Json("Success");
+            }
+            catch (Exception ex) {
+                return Json("Error, try again later");
+            }
         }
     }
 }
