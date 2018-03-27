@@ -1,7 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyShare", "KeyShare\KeyShare.csproj", "{D36CC9DC-DCC2-48F6-AAE3-AEBDF5E6C9E7}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.27520.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyShare", "KeyShare\KeyShare.csproj", "{D36CC9DC-DCC2-48F6-AAE3-AEBDF5E6C9E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyShareClient", "KeyShareClient\KeyShareClient.csproj", "{14DE69D6-B9A2-45A7-901D-7B569A71545D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,5 +16,15 @@ Global
 		{D36CC9DC-DCC2-48F6-AAE3-AEBDF5E6C9E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D36CC9DC-DCC2-48F6-AAE3-AEBDF5E6C9E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D36CC9DC-DCC2-48F6-AAE3-AEBDF5E6C9E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14DE69D6-B9A2-45A7-901D-7B569A71545D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14DE69D6-B9A2-45A7-901D-7B569A71545D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14DE69D6-B9A2-45A7-901D-7B569A71545D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14DE69D6-B9A2-45A7-901D-7B569A71545D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0ABE73D8-12BD-49E0-9986-FF9832EE256F}
 	EndGlobalSection
 EndGlobal
