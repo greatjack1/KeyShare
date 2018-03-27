@@ -1,6 +1,6 @@
 ﻿@page "/senddata"
 @inject HttpClient Http
-<h1>Send Data with a click of a button</h1>
+<h1>Store Data with a click of a button</h1>
 
 <form>
   <div class="form-group">
@@ -18,26 +18,39 @@
       <input type="text" class="form-control" @bind(Value) aria-describedby="Enter Value" placeholder="Enter Value">
       <small id="KeyHelp" class="form-text text-muted">This is the value that you would like to store.</small>
   </div>
-  <button @onclick(async () => await sendData()) class="btn btn-primary">Send</button>
+  <button @onclick(async () => await sendData()) class="btn btn-primary">Store</button>
 </form>
-@if (Submitted) { 
-    //display the paragraph
+@if (Success)
+{
+    //display the success message
 <p><b>Yayyy, your data has been successfully submitted. Key is @Key and Value is @Value</b></p>
 }
+else if (Error) { 
+    <p><b>Oh man, there was an error storing you values, refresh the page and try again later</b></p>
+}
 @functions {
-    public string Key { get; set; }
-    public string Secret { get; set; }
-    public string Value { get; set; }
-    public bool Submitted { get; set; } = false;
-  
+    public string Key { get; set; } = "";
+    public string Secret { get; set; } = "";
+    public string Value { get; set; } = "";
+    public bool Success { get; set; } = false;
+    public bool Error { get; set; } = false;
     private async Task sendData()
     {
-        Console.WriteLine("send data method has been called");
+        //ensure that all fields are filled out
+        if (Key == "" || Secret == "" || Value == "") { 
+
+        }
         //send the data
         String response = await Http.GetStringAsync("https://keyshare.herokuapp.com/keys/storevalue?key="+Key+"&secret=" + Secret +"&value=" + Value);
-        Console.WriteLine("Response from server is" + response);
-        //set the Submitted boolean to true
-        Submitted = true;
+        if (response == "\"Success\"")
+        {
+            //set the Submitted boolean to true
+            Success = true;
+        }
+        else {
+            Error = true;
+        }
+
         //refresh the user interface
         this.StateHasChanged();
     }

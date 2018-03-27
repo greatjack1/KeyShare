@@ -1,52 +1,49 @@
 ﻿@page "/viewdata"
 @inject HttpClient Http
 
-<h1>Weather forecast</h1>
+<h1>Get Data</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>Enter in your Key and Secret to retreive the value that you stored</p>
 
-@if (forecasts == null)
+<form>
+    <div class="form-group">
+        <label for="Key">Key</label>
+        <input type="text" class="form-control" @bind(Key) aria-describedby="Enter teh key for the value you would like to retrieve" placeholder="Enter Key">
+        <small id="KeyHelp" class="form-text text-muted">This is the key that you used when adding the value.</small>
+    </div>
+    <div class="form-group">
+        <label for="Secret">Secret</label>
+        <input type="password" class="form-control" @bind(Secret) placeholder="Enter Secret">
+        <small id="SecretHelp" class="form-text text-muted">This is the secret that is required for viewing your value.</small>
+    </div>
+    <button @onclick(async ()=> await getViewData()) class="btn btn-primary">View</button>
+</form>
+@if (Value != "")
 {
-    <p><em>Loading...</em></p>
+<p>Value: <b>@Value</b></p>
 }
-else
-{
-    <table class='table'>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
 @functions {
-    WeatherForecast[] forecasts;
 
-    protected override async Task OnInitAsync()
+    public string Key { get; set; } = "";
+    public string Secret { get; set; } = "";
+    public string Value { get; set; } = "";
+    async Task getViewData()
     {
-        forecasts = await Http.GetJsonAsync<WeatherForecast[]>("/sample-data/weather.json");
-    }
-
-    class WeatherForecast
-    {
-        public DateTime Date { get; set; }
-        public int TemperatureC { get; set; }
-        public int TemperatureF { get; set; }
-        public string Summary { get; set; }
+        String response = await Http.GetStringAsync("https://keyshare.herokuapp.com/keys/getvalue?key=" + Key + "&secret=" + Secret);
+        Console.WriteLine(response);
+        //remove the leading and trailing qoutes of the response
+        response = response.Substring(1);
+        response = response.Substring(0, response.Length - 1);
+        Console.WriteLine("Response after editing" + response);
+        //make sure we did not receive the NA response        
+        if (response == "NA")
+        {
+            Value = "Unable to retreive value, please ensure that it exists, refresh the page, and try again later.";
+        }
+        else {
+            Value = response;
+        }
+        StateHasChanged();
     }
 }
+
