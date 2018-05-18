@@ -41,7 +41,7 @@ else if (Error) {
 
         }
         //send the data
-        String response = await Http.GetStringAsync("https://keyshare.herokuapp.com/keys/storevalue?key="+Key+"&secret=" + Secret +"&value=" + Value);
+        String response = await Http.GetStringAsync("https://keyshare.herokuapp.com/keys/storevalue?key="+Key+"&secret=" + Secret +"&value=" + Value.Replace("&","%26"));
         if (response == "\"Success\"")
         {
             //set the Submitted boolean to true
